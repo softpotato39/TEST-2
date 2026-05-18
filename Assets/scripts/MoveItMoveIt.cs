@@ -18,6 +18,8 @@ public class MoveItMoveIt : MonoBehaviour
     Vector3 wind;
     bool grass;                             //check if player on ground to enable/disable jump
 
+    public GameObject sally;              // animator component on player (DEFINE IN INSPECTOR)
+
     //SAY CHEESE - camera stuff
     public float mouseSensitivity = 2f;
     public float verticalRotation = 0f;
@@ -30,6 +32,9 @@ public class MoveItMoveIt : MonoBehaviour
         //i want my aesthetics bro - makes mouse invisible >:)
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        sally.GetComponent<Animator>();
+
     }
 
     void RotateCamera()
@@ -56,6 +61,9 @@ public class MoveItMoveIt : MonoBehaviour
         Vector3 move = (transform.forward * onwards + transform.right * sideways).normalized;
         //banana.Move(move * sonic * Time.deltaTime);
 
+        float inputMagnitude = move.magnitude;
+        sally.GetComponent<Animator>().SetFloat("speedboi", inputMagnitude);
+
         //added sprinting i think ? :O
         bool weRunnnin = Input.GetKey(KeyCode.LeftShift);
         float currentSpeed = weRunnnin ? shadowSonic : sonic;
@@ -65,6 +73,7 @@ public class MoveItMoveIt : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && grass)
         {
             wind.y = Mathf.Sqrt(uppies * -2f * apple);
+            sally.GetComponent<Animator>().SetTrigger("uppiz");
         }
 
         //jump time and fall time and stuff :P
